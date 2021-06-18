@@ -12,3 +12,15 @@ const saveItem =(req,resp)=>{
     console.log(item);
 
 }
+const deleteItem=(req,resp)=>{}
+const getItem=(req,resp)=>{}
+const updateItem=(req,resp)=>{}
+const getAllItems=(req,resp)=>{}
+
+module.exports={
+    saveItem,
+    deleteItem,
+    getItem,
+    updateItem,
+    getAllItems
+}
