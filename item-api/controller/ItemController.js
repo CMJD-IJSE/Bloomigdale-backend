@@ -19,7 +19,11 @@ const saveItem =(req,resp)=>{
 }
 const deleteItem=(req,resp)=>{
     Item.deleteOne({itemID:req.headers.id}).then(deleteResp=>{
-        resp.status(200).json({message: 'Deleted'});
+        if(deleteResp.deletedCount>0){
+            resp.status(200).json({message: 'Deleted'});
+        }else{
+            resp.status(200).json({message: 'Try Again'});
+        }
     }).catch(error=>{
         resp.status(500).join(error)
     })
