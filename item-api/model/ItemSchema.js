@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({
+    orderID:{
+      type:String,
+      required:true
+    },
     itemID:{
       type: String,
       required:true

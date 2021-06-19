@@ -2,6 +2,7 @@ const Item = require('../model/ItemSchema');
 
 const saveItem =(req,resp)=>{
     const item = new Item({
+        orderID:req.body.orderID,
         itemID:req.body.itemID,
         itemName:req.body.itemName,
         itemSize:req.body.itemSize,
@@ -18,7 +19,7 @@ const saveItem =(req,resp)=>{
 
 }
 const deleteItem=(req,resp)=>{
-    Item.deleteOne({itemID:req.headers.id}).then(deleteResp=>{
+    Item.deleteOne({orderID:req.headers.id}).then(deleteResp=>{
         if(deleteResp.deletedCount>0){
             resp.status(200).json({message: 'Deleted'});
         }else{
@@ -29,7 +30,27 @@ const deleteItem=(req,resp)=>{
     })
 }
 const getItem=(req,resp)=>{}
-const updateItem=(req,resp)=>{}
+const updateItem=(req,resp)=>{
+    Item.updateOne(
+        {orderID:req.body.id},
+        {$set:{
+                itemID:req.body.itemID,
+                itemName:req.body.itemName,
+                itemSize:req.body.itemSize,
+                itemColor:req.body.itemColor,
+                itemQty:req.body.itemQty,
+                itemPrice:req.body.itemPrice
+            }}
+        ).then(updateResult=>{
+            if(updateResult.nModified>0){
+                resp.status(200).json({message: 'Updated'});
+            }else{
+                resp.status(200).json({message: 'Try Again'});
+            }
+    }).catch(updateError=>{
+        resp.status(500).join(updateError);
+    })
+}
 const getAllItems=(req,resp)=>{
     Item.find().then(result=>{
        resp.status(200).json({dataSet:result});
