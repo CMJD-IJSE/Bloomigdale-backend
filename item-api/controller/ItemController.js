@@ -17,7 +17,13 @@ const saveItem =(req,resp)=>{
     })
 
 }
-const deleteItem=(req,resp)=>{}
+const deleteItem=(req,resp)=>{
+    Item.deleteOne({itemID:req.headers.id}).then(deleteResp=>{
+        resp.status(200).json({message: 'Deleted'});
+    }).catch(error=>{
+        resp.status(500).join(error)
+    })
+}
 const getItem=(req,resp)=>{}
 const updateItem=(req,resp)=>{}
 const getAllItems=(req,resp)=>{
