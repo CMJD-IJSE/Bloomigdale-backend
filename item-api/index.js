@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose')
 
+const itemRoute=require('./routes/ItemRoute');
+
 const app = express();
 
 mongoose.connect(
@@ -18,3 +20,5 @@ mongoose.connect(
 }).catch(error=>{
     console.log(error)
 });
+
+app.use('/api/v1/itemRoute',itemRoute);

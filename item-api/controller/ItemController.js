@@ -2,6 +2,7 @@ const Item = require('../model/ItemSchema');
 
 const saveItem =(req,resp)=>{
     const item = new Item({
+        itemID:req.body.itemID,
         itemName:req.body.itemName,
         itemSize:req.body.itemSize,
         itemColor:req.body.itemColor,

@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({
+    itemID:{
+      type: String,
+      required:true
+    },
     itemName:{
         type: String,
         required:true
     },
     itemSize:{
-        type: Number,
+        type: String,
         required:true
     },
     itemColor:{
