@@ -31,7 +31,6 @@ const deleteItem=(req,resp)=>{
 }
 const getItem=(req,resp)=>{}
 const updateItem=(req,resp)=>{
-    console.log(req.body)
     Item.updateOne(
         {orderID:req.body.orderID},
         {$set:{
