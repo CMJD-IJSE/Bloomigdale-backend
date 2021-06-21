@@ -13,11 +13,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.post('api/user',(req,res)=>{
-    console.log(req.body)
-    res.json({status:'ok'})
-})
-
 mongoose.connect(
     'mongodb://localhost:27017/bloomingdalesUsers',
     {
