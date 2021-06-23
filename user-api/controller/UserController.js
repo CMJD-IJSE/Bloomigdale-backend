@@ -61,8 +61,30 @@ const login = async (req, resp) =>{
     resp.json({status: 'error', error: 'Invalid Email or Password'})
 }
 
+const changePassword = async (req, resp) =>{
+    const {token, newPassword: plainTextPassword} = req.body;
+
+    if(typeof  plainTextPassword !== 'string'){
+        return resp.json({status: 'error', error: 'Invalid Password'})
+    }
+
+    try {
+        const user = jwt.verify(token, JWT_SECRET)
+        const _id = user.id
+
+        const userPassword = await bcrypt.hash(plainTextPassword,10)
+        await User.updateOne({_id},{
+            $set: {userPassword}
+        })
+        resp.json({status: 'ok'})
+    } catch (error) {
+        resp.json({status: 'error', error:':))'})
+    }
+}
+
 
 module.exports={
     saveUser,
-    login
+    login,
+    changePassword
 }
