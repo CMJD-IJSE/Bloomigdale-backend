@@ -1,5 +1,6 @@
 const User = require('../model/UserSchema');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const saveUser =async (req, resp) => {
 
@@ -36,7 +37,32 @@ const saveUser =async (req, resp) => {
 
 }
 
+const JWT_SECRET='vbgrtfbe';
+
+const login = async (req, resp) =>{
+
+    const {userEmail, userPassword} = req.body;
+
+    const user = await User.findOne({userEmail}).lean()
+
+    if(!user) {
+        return resp.json({status: 'error', error: 'Invalid Email or Password'})
+    }
+
+    if(await bcrypt.compare(userPassword, user.userPassword)){
+        const token = jwt.sign({
+            id: user._id,
+            username: user.userEmail
+        }, JWT_SECRET)
+
+        return resp.json({status: 'ok', data: token})
+    }
+
+    resp.json({status: 'error', error: 'Invalid Email or Password'})
+}
+
 
 module.exports={
-    saveUser
+    saveUser,
+    login
 }
