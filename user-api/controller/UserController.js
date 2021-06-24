@@ -1,6 +1,19 @@
 const User = require('../model/UserSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodeMailer = require('nodemailer');
+
+const transporter = nodeMailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+        user: '', //massage sending email
+        pass: '' //password
+    }
+});
+
 
 const saveUser =async (req, resp) => {
 
@@ -20,6 +33,21 @@ const saveUser =async (req, resp) => {
             userEmail,
             userPassword
         });
+        const mailOptions = {
+            from: '', //massage sending email must disable 2 factor authentication and  Allow less secure apps to access account by default this settings is off and you simply turn it on.
+            to: userEmail,
+            subject: 'Account creation successful',
+            text: 'Hi dear, welcome to bloomingdales'
+        };
+
+        await transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.res)
+            }
+        })
+
         console.log('user Created', res)
     } catch (error) {
         if (error.code === 11000) {
@@ -50,6 +78,21 @@ const login = async (req, resp) =>{
             username: user.userEmail
         }, JWT_SECRET)
 
+        const mailOptions = {
+            from: '', //massage sending email must disable 2 factor authentication and  Allow less secure apps to access account by default this settings is off and you simply turn it on.
+            to: userEmail,
+            subject: 'Logging Successful',
+            text: 'Hi dear, welcome to bloomingdales'
+        };
+
+        await transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.res)
+            }
+        })
+
         return resp.json({status: 'ok', data: token})
     }
 
@@ -70,6 +113,21 @@ const changePassword = async (req, resp) =>{
         const userPassword = await bcrypt.hash(plainTextPassword,10)
         await User.updateOne({_id},{
             $set: {userPassword}
+        })
+
+        const mailOptions = {
+            from: '', //massage sending email must disable 2 factor authentication and  Allow less secure apps to access account by default this settings is off and you simply turn it on.
+            to: userEmail,
+            subject: 'Password changed',
+            text: 'Hi dear, Your password has been changed'
+        };
+
+        await transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.res)
+            }
         })
         resp.json({status: 'ok'})
     } catch (error) {
