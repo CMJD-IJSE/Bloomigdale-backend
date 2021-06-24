@@ -13,7 +13,6 @@ const saveItem =(req,resp)=>{
 
     item.save().then(result=>{
         resp.status(200).json({state:true,"message":"saved"});
-        console.log(json.body)
     }).catch(error=>{
         resp.status(500).json(error)
     })
