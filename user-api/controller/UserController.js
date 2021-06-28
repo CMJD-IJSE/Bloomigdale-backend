@@ -33,7 +33,7 @@ const saveUser =async (req, resp) => {
             userEmail,
             userPassword
         });
-        const mailOptions = {
+        /*const mailOptions = {
             from: '', //massage sending email must disable 2 factor authentication and  Allow less secure apps to access account by default this settings is off and you simply turn it on.
             to: userEmail,
             subject: 'Account creation successful',
@@ -47,7 +47,7 @@ const saveUser =async (req, resp) => {
                 console.log('Email sent: ' + info.res)
             }
         })
-
+*/
         console.log('user Created', res)
     } catch (error) {
         if (error.code === 11000) {
@@ -78,7 +78,7 @@ const login = async (req, resp) =>{
             username: user.userEmail
         }, JWT_SECRET)
 
-        const mailOptions = {
+        /*const mailOptions = {
             from: '', //massage sending email must disable 2 factor authentication and  Allow less secure apps to access account by default this settings is off and you simply turn it on.
             to: userEmail,
             subject: 'Logging Successful',
@@ -91,7 +91,7 @@ const login = async (req, resp) =>{
             } else {
                 console.log('Email sent: ' + info.res)
             }
-        })
+        })*/
 
         return resp.json({status: 'ok', data: token})
     }
